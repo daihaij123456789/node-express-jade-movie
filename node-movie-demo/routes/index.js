@@ -5,8 +5,16 @@ var Movie = require('../models/movie');
 var User = require('../models/user');
 
 /* GET home page. */
+//session 预处理
+
+
 //movie首页
 router.get('/', function(req, res, next) {
+  console.log(req.session.user);
+    var _user=req.session.user;
+    if (_user) {
+      res.locals.user=_user;
+    }
     Movie.fetch(function(err, movies) {
         if (err) { console.log(err); }
         res.render('index', {
@@ -42,6 +50,35 @@ router.get('/admin/userlist', function(req, res, next) {
         });
     })
 });
+
+//singin登陆页
+router.post('/user/signin', function(req, res, next) {
+    var _user = req.body.user;
+    var name=_user.name;
+    var password=_user.password;
+    User.findOne({ name:name }, function(err, user) {
+        if (err) { console.log(err); }
+        if (!user) {
+            return res.redirect('/');
+        } 
+        user.comparePassword(password,function (err,isMatch) {
+          if (err) {console.log(err);}
+          if (isMatch) {
+           req.session.user=user;
+            return res.redirect('/');
+          }else{
+            console.log("Password is not matched");
+          }
+        })
+    })
+});
+//logout登出页
+router.get('/logout', function(req, res, next) {
+    delete req.session.user;
+    //delete res.locals.user
+    res.redirect('/');
+});
+
 //movie后台录入页
 router.get('/admin/movie', function(req, res, next) {
     res.render('admin', {

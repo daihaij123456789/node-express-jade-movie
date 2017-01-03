@@ -5,13 +5,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var session = require('express-session');
 var mongoose = require('mongoose');
+//var mongoStore = require('connect-mongodb');
+var mongoStore = require('connect-mongo')(session)
+
+
 var index = require('./routes/index');
 var users = require('./routes/users');
+var settings = require('./settings');
 
 var app = express();
-
+var dbUrl='mongodb://localhost/movie';
 // view engine setup
 app.set('views', path.join(__dirname, 'views/pages'));
 app.set('view engine', 'jade');
@@ -23,6 +28,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+app.use(session({
+	resave:false,//添加这行  
+  	saveUninitialized: true,//添加这行   
+  	secret: settings.cookieSecret,  
+  	key: settings.db,//cookie name  
+  	cookie: {maxAge: 60000},//30 days
+  	store: new mongoStore({  
+    url:dbUrl,
+    collection:'sessions'
+  })  
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
