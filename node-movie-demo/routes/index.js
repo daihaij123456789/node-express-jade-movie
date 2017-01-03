@@ -6,15 +6,19 @@ var User = require('../models/user');
 
 /* GET home page. */
 //session 预处理
+router.use(function (req, res, next) {
+  var _user=req.session.user;
+    if (_user) {
+      res.locals.user=_user;
+    }
+     return next();
+    
+})
 
 
 //movie首页
 router.get('/', function(req, res, next) {
-  console.log(req.session.user);
-    var _user=req.session.user;
-    if (_user) {
-      res.locals.user=_user;
-    }
+    console.log("您好"+req.session.user);
     Movie.fetch(function(err, movies) {
         if (err) { console.log(err); }
         res.render('index', {

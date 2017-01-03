@@ -15,8 +15,11 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var settings = require('./settings');
 
+
 var app = express();
 var dbUrl='mongodb://localhost/movie';
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views/pages'));
 app.set('view engine', 'jade');
