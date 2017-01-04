@@ -42,3 +42,14 @@
       '一名正直的警察，被坏人安装在车上的炸弹炸成重伤，为了救他，OmniCorp公司将他改造成了生化'+
       '机器人"机器战警"，代表着美国司法的未来'
     }
+    {
+      doctor:,
+      country:,
+      title:,
+      year:,
+      poster:,
+      language:,
+      flash:,
+      summary:
+    }
+    变形金刚ID:7054604

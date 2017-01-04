@@ -1,6 +1,7 @@
 var Movie = require('../models/movie');
 var Comment = require('../models/comment');
-
+var Category = require('../models/category');
+var _ = require('underscore');
 //movie详情页
 exports.detail = function(req, res, next) {
     var id = req.params.id;
@@ -20,20 +21,14 @@ exports.detail = function(req, res, next) {
 };
 //movie后台录入页
 exports.new = function(req, res, next) {
-    res.render('admin', {
+    Category.find({}, function (err,categories) {
+        res.render('admin', {
         title: 'movie后台录入页',
-        movie: {
-            doctor: '',
-            country: '',
-            title: '',
-            year: '',
-            poster: '',
-            language: '',
-            flash: '',
-            summary: ''
-        }
+        categories:categories,
+        movie: {}
 
-    });
+        })
+    })  
 };
 
 //后台更新页
@@ -41,13 +36,15 @@ exports.update = function(req, res, next) {
     var id = req.params.id;
     if (id) {
         Movie.findById(id, function(err, movie) {
+          Category.find({}, function (err,categories) {
             res.render('admin', {
                 title: 'movie后台更新页',
-                movie: movie
+                movie: movie,
+                categories:categories
             });
         })
-    }
-
+    })
+  }
 };
 
 
@@ -57,31 +54,55 @@ exports.save = function(req, res, next) {
     var id = req.body.movie._id;
     var movieObj = req.body.movie;
     var _movie;
-    if (id !== 'undefined') {
-        Movie.findById(id, function(err, movie) {
-            if (err) { console.log(err); }
-            _movie = _.extend(movie, movieObj);
-            _movie.save(function(err, movie) {
-                if (err) { console.log(err); }
-                res.redirect('/movie/' + movie._id)
-            })
-        })
-    } else {
-        _movie = new Movie({
-            doctor: movieObj.doctor,
-            country: movieObj.country,
-            title: movieObj.title,
-            year: movieObj.year,
-            poster: movieObj.poster,
-            language: movieObj.language,
-            flash: movieObj.flash,
-            summary: movieObj.summary
-        })
-        _movie.save(function(err, movie) {
-            if (err) { console.log(err); }
+    if (id) {
+    Movie.findById(id, function(err, movie) {
+      if (err) {
+        console.log(err)
+      }
+
+      _movie = _.extend(movie, movieObj)
+      _movie.save(function(err, movie) {
+        if (err) {
+          console.log(err)
+        }
+        res.redirect('/movie/' + movie._id)
+      })
+    })
+  }
+  else {
+    _movie = new Movie(movieObj);
+
+    var categoryId = movieObj.category
+    //var categoryName = movieObj.categoryName
+
+    _movie.save(function(err, movie) {
+      if (err) {
+        console.log(err)
+      }
+      //if (categoryId) {
+        Category.findById(categoryId, function(err, category) {
+          category.movies.push(movie._id)
+
+          category.save(function(err, category) {
             res.redirect('/movie/' + movie._id)
+          })
         })
-    }
+      //}
+      /*else if (categoryName) {
+        var category = new Category({
+          name: categoryName,
+          movies: [movie._id]
+        })
+
+        category.save(function(err, category) {
+          movie.category = category._id
+          movie.save(function(err, movie) {
+            res.redirect('/movie/' + movie._id)
+          })
+        })
+      }*/
+    })
+  }
 
 };
 //movie列表页
