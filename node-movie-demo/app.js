@@ -9,7 +9,8 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 //var mongoStore = require('connect-mongodb');
 var mongoStore = require('connect-mongo')(session)
-
+//设置配置
+var logger  = require('morgan');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -21,7 +22,7 @@ var dbUrl='mongodb://localhost/movie';
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views/pages'));
+app.set('views', path.join(__dirname, 'app/views/pages'));
 app.set('view engine', 'jade');
 app.locals.moment=require('moment')
 
@@ -32,7 +33,7 @@ app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
+//添加session
 app.use(session({
 	resave:false,//添加这行  
   	saveUninitialized: true,//添加这行   
@@ -44,6 +45,16 @@ app.use(session({
     collection:'sessions'
   })  
 }));
+
+//添加配置
+if('development'===app.get('env')){
+  app.set('showStackError',true);
+  app.use(logger(':method :url :status'));
+  app.locals.pretty=true;
+  mongoose.set('debug',true);
+}
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);

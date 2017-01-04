@@ -13,10 +13,10 @@ var UserSchema = new mongoose.Schema({
   // 2: professonal user
   // >10: admin
   // >50: super admin
-  /*role: {
+  role: {
     type: Number,
     default: 0
-  },*/
+  },
   meta: {
     createAt: {
       type: Date,
