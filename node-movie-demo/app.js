@@ -35,8 +35,8 @@ app.use(cookieParser());
 
 //添加session
 app.use(session({
-	resave:false,//添加这行  
-  	saveUninitialized: true,//添加这行   
+	//resave:false,//添加这行  
+  	//saveUninitialized: true,//添加这行   
   	secret: settings.cookieSecret,  
   	key: settings.db,//cookie name  
   	cookie: {maxAge: 60000},//30 days

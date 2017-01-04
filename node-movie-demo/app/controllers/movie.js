@@ -1,14 +1,22 @@
 var Movie = require('../models/movie');
+var Comment = require('../models/comment');
 
 //movie详情页
 exports.detail = function(req, res, next) {
     var id = req.params.id;
-    Movie.findById(id, function(err, movie) {
+       Movie.findById(id, function(err, movie) {
+    Comment
+      .find({movie: id})
+      .populate('from', 'name')
+      .populate('reply.from reply.to', 'name')
+      .exec(function(err, comments) {
         res.render('detail', {
-            title: 'movie详情页',
-            movie: movie
-        });
-    })
+          title: 'imooc 详情页',
+          movie: movie,
+          comments: comments
+        })
+      })
+  })
 };
 //movie后台录入页
 exports.new = function(req, res, next) {

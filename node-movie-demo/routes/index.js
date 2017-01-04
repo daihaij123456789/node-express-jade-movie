@@ -3,6 +3,7 @@ var router = express.Router();
 var Index=require('../app/controllers/index');
 var Movie=require('../app/controllers/movie');
 var User=require('../app/controllers/user');
+var Comment=require('../app/controllers/comment');
 /* GET home page. */
 //session 预处理
 router.use(function (req, res, next) {
@@ -26,9 +27,12 @@ router.get('/logout',User.logout);//logout登出页
 
 //movie电影
 router.get('/movie/:id',Movie.detail);//movie详情页
-router.get('/admin/movie',User.signinRequired,User.adminRequired, Movie.new);//movie后台录入页
+router.get('/admin/movie/new',User.signinRequired,User.adminRequired, Movie.new);//movie后台录入页
 router.get('/admin/movie/update/:id',User.signinRequired,User.adminRequired, Movie.update);//后台更新页
-router.post('/admin/movie/new',User.signinRequired,User.adminRequired, Movie.save);//表单提交
+router.post('/admin/movie',User.signinRequired,User.adminRequired, Movie.save);//表单提交
 router.get('/admin/movie/list',User.signinRequired,User.adminRequired, Movie.list);//movie列表页
 router.delete('/admin/movie/list',User.signinRequired,User.adminRequired, Movie.delete);//删除列表页
+
+//comment电影评论
+router.post('/user/comment',User.signinRequired, Comment.save);//表单提交	
 module.exports = router;
