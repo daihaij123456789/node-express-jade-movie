@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var mongoStore = require('connect-mongodb');
+var multiparty = require('connect-multiparty');
 //var mongoStore = require('connect-mongo')(session)
 //设置配置
 var logger  = require('morgan');
@@ -26,6 +27,8 @@ app.set('views', path.join(__dirname, 'app/views/pages'));
 app.set('view engine', 'jade');
 app.locals.moment=require('moment')
 
+//处理上传海报src
+app.use(multiparty());
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

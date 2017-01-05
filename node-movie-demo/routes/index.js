@@ -28,11 +28,11 @@ router.get('/logout',User.logout);//logout登出页
 
 //movie电影
 router.get('/movie/:id',Movie.detail);//movie详情页
-router.get('/admin/movie/new',User.signinRequired,User.adminRequired, Movie.new);//movie后台录入页
-router.get('/admin/movie/update/:id',User.signinRequired,User.adminRequired, Movie.update);//后台更新页
-router.post('/admin/movie',User.signinRequired,User.adminRequired,Movie.save);//表单提交
-router.get('/admin/movie/list',User.signinRequired,User.adminRequired, Movie.list);//movie列表页
-router.delete('/admin/movie/list',User.signinRequired,User.adminRequired, Movie.delete);//删除列表页
+router.get('/admin/movie/new',Movie.new);//movie后台录入页
+router.get('/admin/movie/update/:id',Movie.update);//后台更新页
+router.post('/admin/movie',Movie.savePoster,Movie.save);//表单提交
+router.get('/admin/movie/list', Movie.list);//movie列表页
+router.delete('/admin/movie/list', Movie.delete);//删除列表页
 
 //comment电影评论
 router.post('/user/comment',User.signinRequired, Comment.save);//表单提交
