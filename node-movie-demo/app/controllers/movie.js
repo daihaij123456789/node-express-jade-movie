@@ -73,13 +73,13 @@ exports.save = function(req, res, next) {
     _movie = new Movie(movieObj);
 
     var categoryId = movieObj.category
-    //var categoryName = movieObj.categoryName
+    var categoryName = movieObj.categoryName
 
     _movie.save(function(err, movie) {
       if (err) {
         console.log(err)
       }
-      //if (categoryId) {
+      if (categoryId) {
         Category.findById(categoryId, function(err, category) {
           category.movies.push(movie._id)
 
@@ -87,8 +87,8 @@ exports.save = function(req, res, next) {
             res.redirect('/movie/' + movie._id)
           })
         })
-      //}
-      /*else if (categoryName) {
+      }
+      else if (categoryName) {
         var category = new Category({
           name: categoryName,
           movies: [movie._id]
@@ -100,7 +100,7 @@ exports.save = function(req, res, next) {
             res.redirect('/movie/' + movie._id)
           })
         })
-      }*/
+      }
     })
   }
 

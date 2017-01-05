@@ -4,29 +4,29 @@
       poster:'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
     },
     {
-      title:'机械战警',
+      title:'钢铁骑士',
       _id:2,
-      poster:'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+      poster:'http://t.dyxz.la/upload/img/201612/poster_20161225_1699424_b.jpg',
     },
     {
-      title:'机械战警',
-      _id:3,
-      poster:'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+      title:'速度与激情7',
+      _id:23761370,
+      poster:'http://t.dyxz.la/upload/img/201504/14251_b.jpg',
     },
     {
-      title:'机械战警',
-      _id:4,
-      poster:'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+      title:'代号47',
+      _id:21350962,
+      poster:'http://t.dyxz.la/upload/img/201510/poster_20151014_9486054_b.jpg',
     },
     {
-      title:'机械战警',
-      _id:5,
-      poster:'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+      title:'摆渡之人',
+      _id:26280528,
+      poster:'http://t.dyxz.la/upload/img/201612/poster_20161220_7336916_b.jpg',
     },
     {
-      title:'机械战警',
+      title:'从你的全世界路过 ',
       _id:6,
-      poster:'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+      poster:'http://t.dyxz.la/upload/img/201610/poster_20161008_4582667_b.jpg',
     }
 
 

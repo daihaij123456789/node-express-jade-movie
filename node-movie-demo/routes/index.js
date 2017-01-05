@@ -10,8 +10,8 @@ var Category=require('../app/controllers/category');
 router.use(function (req, res, next) {
   var _user=req.session.user;
     res.locals.user=_user;
+    console.log(res.locals.user);
     next();
-    
 })
 
 
@@ -42,4 +42,8 @@ router.post('/user/comment',User.signinRequired, Comment.save);//表单提交
 router.get('/admin/category/new',User.signinRequired,User.adminRequired, Category.new);//movie后台录入页
 router.post('/admin/category',User.signinRequired,User.adminRequired, Category.save);//表单提交
 router.get('/admin/category/list',User.signinRequired,User.adminRequired, Category.list);//movie列表页
+
+//category电影搜索
+router.get('/results',Index.search);//movie列表页
+
 module.exports = router;
