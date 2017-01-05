@@ -1,7 +1,8 @@
 var express = require('express');
 var jade=require('jade');
-var path = require('path');
 var favicon = require('serve-favicon');
+var path = require('path');
+var fs = require('fs');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -21,7 +22,24 @@ var settings = require('./settings');
 var app = express();
 var dbUrl='mongodb://localhost/movie';
 
-
+//modle loading
+var models_path = __dirname+'/app/models';
+var walk = function (path) {
+  fs
+    .readdirSync(path)
+    .forEach(function (file) {
+      var newPath = path + '/' + file;
+      var stat = fs.statSync(newPath);
+      if (stat.isFile) {
+        if (/(.*)\.(js|coffee)/.test(file)) {
+          require(newPath)
+        }
+      }else if (stat.isDirectory) {
+        walk(newPath)
+      }
+    })
+}
+walk(models_path);
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views/pages'));
 app.set('view engine', 'jade');

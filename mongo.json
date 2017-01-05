@@ -11,4 +11,9 @@
 "meta" : { "updateAt" : ISODate("2017-01-05T01:48:02.194Z"), "createAt" : ISODate("2017-01-05T01:48:02.194Z") }, "__v" : 0 }
 
 
-{ "_id" : ObjectId("586caff8f4961a314412d8b2"), "name" : "动作片", "meta" : { "updateAt" : ISODate("2017-01-05T01:43:56.969Z"), "createAt" : ISODate("2017-01-04T08:19:04.995Z") }, "movies" : [ ObjectId("586d047957350f549c617de2"), ObjectId("586da121f2b59a40e4a71e1c"), ObjectId("586da4dcbdf4e426e8b4dd06") ], "__v" : 3 }
+{ "_id" : ObjectId("586caff8f4961a314412d8b2"), 
+"name" : "动作片",
+"meta" : { "updateAt" : ISODate("2017-01-05T01:43:56.969Z"), 
+"createAt" : ISODate("2017-01-04T08:19:04.995Z") }, 
+"movies" : [ ObjectId("586d047957350f549c617de2"), ObjectId("586da121f2b59a40e4a71e1c"), ObjectId("586da4dcbdf4e426e8b4dd06") ], 
+"__v" : 3 }
