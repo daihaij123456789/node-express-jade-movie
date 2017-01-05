@@ -4,7 +4,7 @@ var Category = mongoose.model('Category')
 // admin new page
 exports.new = function(req, res) {
   res.render('category_admin', {
-    title: 'imooc 后台分类录入页',
+    title: '电影后台分类录入页',
     category: {}
   })
 }
@@ -24,15 +24,29 @@ exports.save = function(req, res) {
 }
 
 // catelist page
-exports.list = function(req, res) {
-  Category.fetch(function(err, catetories) {
+exports.list = function(req, res ,next) {
+  
+  Category.fetch(function(err, categories) {
     if (err) {
       console.log(err)
     }
 
     res.render('categorylist', {
-      title: 'imooc 分类列表页',
-      catetories: catetories
+      title: '电影分类列表页',
+      categories: categories
     })
   })
 }
+
+
+//删除用户列表页
+exports.delete = function(req, res, next) {
+    var id = req.query.id;
+    if (id) {
+        Category.remove({ _id: id }, function(err, category) {
+            if (err) { console.log(err); } else {
+                res.json({ success: 1 })
+            }
+        })
+    }
+};

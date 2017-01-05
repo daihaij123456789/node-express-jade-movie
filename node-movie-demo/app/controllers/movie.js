@@ -19,7 +19,7 @@ exports.detail = function(req, res, next) {
           .populate('reply.from reply.to', 'name')
           .exec(function(err, comments) {
             res.render('detail', {
-              title: 'imooc 详情页',
+              title: '电影详情页',
               movie: movie,
               comments: comments
             })
@@ -30,7 +30,7 @@ exports.detail = function(req, res, next) {
 exports.new = function(req, res, next) {
     Category.find({}, function (err,categories) {
         res.render('admin', {
-        title: 'movie后台录入页',
+        title: '电影后台录入页',
         categories:categories,
         movie: {}
 
@@ -45,7 +45,7 @@ exports.update = function(req, res, next) {
         Movie.findById(id, function(err, movie) {
           Category.find({}, function (err,categories) {
             res.render('admin', {
-                title: 'movie后台更新页',
+                title: '电影后台更新页',
                 movie: movie,
                 categories:categories
             });
@@ -147,12 +147,12 @@ exports.list = function(req, res, next) {
       }
 
       res.render('list', {
-        title: 'imooc 列表页',
+        title: '电影列表页',
         movies: movies
       })
     })
 };
-//删除列表页
+//删除电影列表页
 exports.delete = function(req, res, next) {
     var id = req.query.id;
     if (id) {

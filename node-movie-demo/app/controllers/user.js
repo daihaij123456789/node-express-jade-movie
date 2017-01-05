@@ -8,7 +8,7 @@ exports.signup = function(req, res, next) {
         if (user) {
             return res.redirect('/signin');
         } else {
-            var user = new User(_user);
+            user = new User(_user);
             user.save(function(err, user) {
                 if (err) { console.log(err); }
                 res.redirect('/');
@@ -81,4 +81,16 @@ exports.logout =function(req, res, next) {
     delete req.session.user;
     //delete res.locals.user
     res.redirect('/');
+};
+
+//删除用户列表页
+exports.delete = function(req, res, next) {
+    var id = req.query.id;
+    if (id) {
+        User.remove({ _id: id }, function(err, user) {
+            if (err) { console.log(err); } else {
+                res.json({ success: 1 })
+            }
+        })
+    }
 };

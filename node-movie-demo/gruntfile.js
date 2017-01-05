@@ -10,7 +10,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['public/js/**', 'models/**/*.js', 'schemas/**/*.js'],
-        //tasks: ['jshint'],
+        tasks: ['jshint'],
         options: {
           livereload: true
         }
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
     },
 
     concurrent: {
-      tasks: ['nodemon', 'watch', 'less', 'uglify', 'jshint'],
+      tasks: ['nodemon', 'watch'],
       options: {
         logConcurrentOutput: true
       }

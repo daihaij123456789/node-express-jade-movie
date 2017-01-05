@@ -10,7 +10,6 @@ var Category=require('../app/controllers/category');
 router.use(function (req, res, next) {
   var _user=req.session.user;
     res.locals.user=_user;
-    console.log(res.locals.user);
     next();
 })
 
@@ -25,25 +24,26 @@ router.get('/admin/user/list',User.signinRequired,User.adminRequired, User.list)
 router.get('/signin',User.showSignin);//signin登陆页
 router.get('/signup',User.showSignup);//signup注册页
 router.get('/logout',User.logout);//logout登出页
+router.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.delete);//用户删除
 
 //movie电影
 router.get('/movie/:id',Movie.detail);//movie详情页
-router.get('/admin/movie/new',Movie.new);//movie后台录入页
-router.get('/admin/movie/update/:id',Movie.update);//后台更新页
-router.post('/admin/movie',Movie.savePoster,Movie.save);//表单提交
-router.get('/admin/movie/list', Movie.list);//movie列表页
-router.delete('/admin/movie/list', Movie.delete);//删除列表页
+router.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new);//movie后台录入页
+router.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update);//后台更新页
+router.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save);//表单提交
+router.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list);//movie列表页
+router.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.delete);//删除列表页
 
 //comment电影评论
-router.post('/user/comment',User.signinRequired, Comment.save);//表单提交
+router.post('/user/comment',User.signinRequired, Comment.save);//评论表单提交
 
 
 //category电影分类
-router.get('/admin/category/new',User.signinRequired,User.adminRequired, Category.new);//movie后台录入页
-router.post('/admin/category',User.signinRequired,User.adminRequired, Category.save);//表单提交
-router.get('/admin/category/list',User.signinRequired,User.adminRequired, Category.list);//movie列表页
-
+router.get('/admin/category/new',User.signinRequired,User.adminRequired, Category.new);//分类后台录入页
+router.post('/admin/category',User.signinRequired,User.adminRequired, Category.save);//分类表单提交
+router.get('/admin/category/list',User.signinRequired,User.adminRequired, Category.list);//分类列表页
+router.delete('/admin/category/list', User.signinRequired, User.adminRequired, Category.delete);//删除分类列表页
 //category电影搜索
-router.get('/results',Index.search);//movie列表页
+router.get('/results',Index.search);//movie搜索页
 
 module.exports = router;

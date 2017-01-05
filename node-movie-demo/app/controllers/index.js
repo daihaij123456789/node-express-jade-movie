@@ -6,7 +6,7 @@ exports.index = function(req, res, next) {
     .find({})
     .populate({
       path: 'movies',
-      //select: 'title poster',
+      select: 'title poster',
       options: { limit: 6 }
     })
     .exec(function(err, categories) {
@@ -45,7 +45,7 @@ exports.search = function(req, res) {
         var results = movies.slice(index, index + count)
 
         res.render('results', {
-          title: 'imooc 结果列表页面',
+          title: '电影结果列表页面',
           keyword: category.name,
           currentPage: (page + 1),
           query: 'cat=' + catId,
@@ -64,7 +64,7 @@ exports.search = function(req, res) {
         var results = movies.slice(index, index + count)
 
         res.render('results', {
-          title: 'imooc 结果列表页面',
+          title: '电影结果列表页面',
           keyword: q,
           currentPage: (page + 1),
           query: 'q=' + q,

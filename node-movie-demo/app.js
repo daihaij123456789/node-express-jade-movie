@@ -8,9 +8,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
-var mongoStore = require('connect-mongodb');
+//var mongoStore = require('connect-mongodb');
 var multiparty = require('connect-multiparty');
-//var mongoStore = require('connect-mongo')(session)
+var mongoStore = require('connect-mongo')(session)
 //设置配置
 var logger  = require('morgan');
 
@@ -56,11 +56,11 @@ app.use(cookieParser());
 
 //添加session
 app.use(session({
-	//resave:false,//添加这行  
+	   //resave:false,//添加这行  
   	//saveUninitialized: true,//添加这行   
   	secret: settings.cookieSecret,  
   	key: settings.db,//cookie name  
-  	cookie: {maxAge: 60000},//30 days
+  	cookie: {maxAge: 60000000},//30 days
   	store: new mongoStore({  
     url:dbUrl,
     collection:'sessions'
