@@ -21,7 +21,7 @@ var settings = require('./settings');
 
 var app = express();
 var dbUrl='mongodb://localhost/movie';
-
+mongoose.connect(dbUrl);
 //modle loading
 var models_path = __dirname+'/app/models';
 var walk = function (path) {
@@ -49,15 +49,15 @@ app.locals.moment=require('moment')
 app.use(multiparty());
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger(':method :url :status'));
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //添加session
 app.use(session({
-	   //resave:false,//添加这行  
-  	//saveUninitialized: true,//添加这行   
+	   resave:false,//添加这行  
+  	saveUninitialized: true,//添加这行   
   	secret: settings.cookieSecret,  
   	key: settings.db,//cookie name  
   	cookie: {maxAge: 60000000},//30 days
