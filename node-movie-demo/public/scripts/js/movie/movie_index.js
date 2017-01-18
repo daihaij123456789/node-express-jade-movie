@@ -56,10 +56,11 @@ $(function() {
         var URL = '/?galleryName=' + encodeURIComponent(galleryName);
 
         funAjax(URL,'GET',function(results) {
+
           var data = results.data || [],                // 返回正在上映或即将上映电影数据
               dataMov = data.movies,
               dataLength = data.movies.length;          // 请求返回的电影数量
-          $('#headerNow a').attr('href','/movie/results?cat=' + data._id + '&p=0').text(data.name);                      // 设置标题名称
+          $('#headerNow a').attr('href','/movie/results?cat=' + data._id + '&p=0').text(data.name);     // 设置标题名称
           // 切换副标题名称
           if(galleryName === '即将上映'){
             $oTitle.text('正在上映');

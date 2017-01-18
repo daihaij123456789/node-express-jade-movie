@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://cdn.bootcss.com/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+	<button type="button" id="music-paly">按钮</button>
+<audio src="http://sc1.111ttt.com/2016/1/12/10/205102159306.mp3" autobuffer autoloop loop controls></audio> 
+	<script type="text/javascript">
+		$('#music-paly').on('click',  function(e) {
+  $.ajax({
+    url: 'http://sc1.111ttt.com/2016/1/12/10/205102159306.mp3',
+    cache: true,
+    type: 'get',
+    dataType: 'arraybuffer'
+  })
+  .done(function(data) {
+    /*ac.decodeAudioDate(data, function (buffer) {
+      var bufferSource = ac.createBufferSouce;
+      bufferSource.buffer = buffer;
+      bufferSource.connect(ac.destination);
+    },function (err) {
+      console.log(err);
+    });*/
+    console.log(data);
+  })
+  
+});
+	</script>
+</body>
+</html>
