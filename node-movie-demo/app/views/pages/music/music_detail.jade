@@ -39,9 +39,10 @@ block content
             p.intro #{music.summary}
         .detail-header.col-md-5.col-xs-6
           .panel-lyics
-            .textarea-lyics
-            - var musicSrc = music.src ? music.src : ''
-            audio(src=musicSrc controls autoplay)
+            .textarea-lyics#lrc
+            p
+              - var musicSrc = music.src ? music.src : ''
+              audio#audio-paly(src=musicSrc controls,data-id="#{music._id}")
 
 
     .row
