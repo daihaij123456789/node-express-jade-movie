@@ -88,4 +88,27 @@ $(function() {
       });
     }
   });
+
+  // 豆瓣音乐同步豆瓣api数据鼠标离开事件
+  $('#xiamiMusic').blur(function() {
+    var id = $(this).val();
+    if(id) {
+      $.ajax( {
+        url: 'https://api.lostg.com/music/' + id,
+        cache: true,
+        type: 'get',
+        dataType: 'jsonp',
+        data: {
+          lyric: 1
+        },
+        crossDomain: true,
+        jsonp: 'callback'
+      })
+      .done(function(data) {
+        $('#inputMusicSrc').val(data.location);// 歌曲地址
+        $('#inputMusiclyric').val(data.lyric);// 歌词地址   
+      });
+    }
+  });
+
 });

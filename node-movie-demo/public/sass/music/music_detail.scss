@@ -64,7 +64,6 @@ audio {
     color: #eff5ee;
  }
  .info p{
-    display: inline;
     margin-left: 20px;
     font-weight:bold;
     font-size:16px;
@@ -84,3 +83,49 @@ audio {
   text-indent:0;
   text-align:left;
  }
+
+
+
+.control-play{
+  text-align: center;
+}
+.control-play .type {
+    display: inline-block; 
+    margin: 0 auto;
+    text-align: center;
+    color: #000;
+} 
+.control-play .type::after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.control-play .type li {
+    list-style: outside none none;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+    border-top: 1px solid #000;
+    cursor: pointer;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    width: 80px;
+}
+.control-play .type li:first-child {
+    border-bottom-left-radius: 5px;
+    border-left: 1px solid #000;
+    border-top-left-radius: 5px;
+}
+.control-play .type li:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.control-play .type .selected01 {
+    background: #fff none repeat scroll 0 0;
+    color: #000;
+}
+
+audio#audio-paly1 {
+    display: none;
+}

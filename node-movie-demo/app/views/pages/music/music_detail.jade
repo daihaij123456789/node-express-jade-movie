@@ -3,6 +3,7 @@ extends ../../includes/layout
 block link
   link(href="/libs/css/include/detail.min.css" rel="stylesheet")
   link(href="/libs/css/music/music_detail.min.css" rel="stylesheet")
+  link(href="/libs/css/include/APlayer.min.css" rel="stylesheet")
 block content
   .container
     .row
@@ -39,10 +40,12 @@ block content
             p.intro #{music.summary}
         .detail-header.col-md-5.col-xs-6
           .panel-lyics
-            .textarea-lyics#lrc
+             .textarea-lyics#lrc
+                pre.aplayer-lrc-content(style="display:none") #{music.lyric}
             p
               - var musicSrc = music.src ? music.src : ''
-              audio#audio-paly(src=musicSrc controls,data-id="#{music._id}")
+              audio#audio-paly(src=musicSrc, controls, data-id="#{music._id}")
+              //-audio#audio-paly1(src=musicSrc, controls, data-id="#{music._id}")
 
 
     .row
@@ -94,3 +97,4 @@ block content
                                     a.comment-del(href="javascript:;" data-cid="#{item._id}" data-did='#{reply._id}') &nbsp;|&nbsp;删除
                       hr
   script(src="/libs/scripts/js/music/music_detail.min.js")
+  

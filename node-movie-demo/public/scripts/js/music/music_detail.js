@@ -102,61 +102,87 @@ $(function() {
             }
         });
     });
-    //播放音乐
+
+
+    // format second to 00:00
+    function secondToTime(second) {
+        var add0 = function(num) {
+            return num < 10 ? '0' + num : '' + num;
+        };
+        var min = parseInt(second / 60);
+        var sec = parseInt(second - min * 60);
+        return add0(min) + ':' + add0(sec);
+    };
+    //播放音乐与同步歌词
+    $('audio')[0].volume = 0.2;
     $('audio').on('play', function(event) {
-        var target = $(event.target),
-            _id = target.data('id'); // 获取点击的id值
+        var $this = $(this)
+        var lrcIndex = 0
+        var lrcTime = [];
+        var lrcLine = [];
+        var start = new Date().getTime();
+
         var $lrc = $('#lrc');
-        var html = '';
-        var start = new Date();
-        //if ($lrc.html() == '') {
-            $.ajax({
-                url: '/musicPaly?id=' + _id,
-                type: 'get',
-                dataType: 'json',
-                cache: true,
-                crossDomain: true,
-                success: function(data) {
-                    var data = JSON.parse(data)
-                    html += '<div class="info">';
-                    if ($(data).find('TITLE').length > 0) {
-                        html += '<p class="music-title lyrics-title">歌曲：' + $(data).find('TITLE').text() + '</p>';
-                    }
-                    if ($(data).find('ALBUM').length > 0) {
-                        html += '<p class="album lyrics-title">专辑：' + $(data).find('ALBUM').text() + '</p>';
-                    }
-                    if ($(data).find('ARTIST').length > 0) {
-                        html += '<p class="artist lyrics-title">演唱：' + $(data).find('ARTIST').text() + '</p>';
-                    }
-                    html += '</div>';
-                    html += '<div class="lyrics-container">'
-                    html += '<div class="lyrics-container2">'
-                    $(data).find('LRC').each(function() {
-                        html += '<p class="lyrics" tag="' + $(this).attr('TAG') + '">' + $(this).text() + '</p>';
-                    });
-                    html += '</div></div>';
-                    $lrc.html(html);
-                }
-            })
-        //}
-        var timer = setInterval(function() {
-            var now = new Date();
+        var lrcs = $('.aplayer-lrc-content').html();
+        var lines = lrcs.split(/\n/);
+        var timeExp = /\[(\d{2}):(\d{2})\.(\d{3})]/;
+        var lrcExp = /](.*)$/;
+        var notLrcLineExp = /\[[A-Za-z]+:/;
+        var html = '<div class="lyrics-container">';
+        html += '<div class="lyrics-container2">'
+        for (var i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/^\s+|\s+$/g, '');
+            var oneTime = timeExp.exec(lines[i]);
+            var oneLrc = lrcExp.exec(lines[i]);
+            if (oneTime && oneLrc && !lrcExp.exec(oneLrc[1])) {
+                lrcTime.push(parseInt(oneTime[1]) * 60 + parseInt(oneTime[2]) + parseInt(oneTime[3]) / 1000);
+
+                lrcLine.push(oneLrc[1]);
+            } else if (lines[i] && !notLrcLineExp.exec(lines[i])) {
+                throw 'APlayer Error: lrc format error : should be like `[mm:ss.xx]lyric` : ' + lines[i];
+            }
+        }
+        for (i = 0; i < lrcLine.length; i++) {
+            html += '<p class="lyrics" tag=' + lrcTime[i] + '>' + lrcLine[i] + '</p>';
+        }
+        html += '</div></div>';
+        $lrc.html(html)
+        /*var timer = setInterval(function() {
+            var now = new Date().getTime();
             var elapsed = now - start;
             if ($lrc.find('.lyrics').length) {
                 $lrc.find('.lyrics').each(function() {
-                    var isOK = elapsed - $(this).attr('tag');
+                    var isOK = elapsed / 1000 - ($(this).attr('tag'));
                     if (isOK < 13 && isOK > 0) {
-                        $lrc.find('.lyrics').removeClass('activated');
-                        $(this).addClass('activated');
-                        if ($(this).prevAll('.lyrics').length > 3) {
+                        $(this).addClass('activated').siblings('.lyrics').removeClass('activated');;
+                        if ($(this).prevAll('.lyrics').length > 8) {
                             $('.lyrics-container2').animate({
-                                'top': '-=30px'
+                                'top': '-=3px'
                             });
-                            //console.log($(this).prevAll('.lyrics').length);
                         }
                     }
                 });
             }
-        }, 10);
+        }, 1000);*/
+        var timer = setInterval(function () {
+        	if (!currentTime) {
+    			var currentTime = $('audio')[0].currentTime;
+            if (currentTime < lrcTime[lrcIndex] || currentTime >= lrcTime[lrcIndex + 1]) {
+                $lrc.find('.lyrics').each(function(index, itme) {
+                        if (currentTime >= $(this).attr('tag') && (!$(this).next().attr('tag') || currentTime < $(this).next().attr('tag'))) {
+                            lrcIndex = index;
+                            $(this).addClass('activated').siblings('.lyrics').removeClass('activated');;
+                                if ($(this).prevAll('.lyrics').length > 4) {
+                                    $('.lyrics-container2').animate({
+                                        'top': '-=30px'
+                                    });
+                            	}
+                            }    
+                            });
+                    }
+                }
+            },1000)
+        
     })
+
 });

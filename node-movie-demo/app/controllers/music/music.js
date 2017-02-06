@@ -310,36 +310,12 @@ exports.del = function(req, res) {
 /* 音乐播放 */
 exports.musicPaly = function(req, res, next) {
     var _id = req.query.id || '';
-    /*
-      var _id = req.body.id;*/
-    var lyricUrl = '';
-
-    function fetchContent(url, calback) {
-        var req = request(url, { timeout: 10000, pool: false });
-        req.setMaxListeners(50);
-        req.setHeader('user-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36');
-
-        req.on('error', function(err) {
-            console.log(err);
-        });
-        req.on('response', function(res) {
-            var bufferHelper = new BufferHelper();
-            res.on('data', function(chunk) {
-                bufferHelper.concat(chunk);
-            });
-            res.on('end', function() {
-                var result = iconv.decode(bufferHelper.toBuffer(), 'GBK');
-                calback(result);
-            });
-        });
-    }
     if (_id) {
-        console.log(_id);
         Music.findById(_id, function(err, music) {
-            lyricUrl = music.lyric;
-            fetchContent(lyricUrl, function(data) {
-                res.json(JSON.stringify(data));
+            var lyricUrl = music.lyric;
+                res.json(JSON.stringify(lyricUrl));
             })
-        })
     }
 }
+
+
